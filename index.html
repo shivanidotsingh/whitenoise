@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stockholm slow tv 📺</title>
+    <title>cityscapes</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,22 +13,23 @@
             display: flex;
             justify-content: center;
             background-color: #000;
-            overflow-y: auto; /* Allow vertical scrolling */
+            overflow-y: auto; /* Allow vertical scrolling if content exceeds viewport */
             align-items: flex-start; /* Align grid to the top when scrolling */
         }
 
         .video-grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            /* No grid-template-rows needed, as there's only one row now */
             gap: 0;
-            width: 100vw; /* Still take full viewport width */
+            width: 100vw; /* Take full viewport width */
             position: relative;
         }
 
         .video-grid-item {
             position: relative;
             width: 100%;
-            aspect-ratio: 9 / 16; /* For typical phone portrait video (e.g., 1080x1920) */
+            aspect-ratio: 9 / 16; /* Maintain portrait aspect ratio */
             overflow: hidden;
         }
 
@@ -84,62 +85,19 @@
 </head>
 <body>
     <div class="video-grid-container">
-        <!-- First 3 videos - load immediately -->
+        <!-- Only 3 video elements are needed now, one for each column's display -->
         <div class="video-grid-item">
-            <video id="video1" loop muted playsinline poster="https://placehold.co/640x360/F5F5DC/F5F5DC">
-                <source src="vids/geese.mp4" type="video/mp4">
+            <video id="displayVideoCol1" muted playsinline>
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video id="video5" loop muted playsinline poster="https://placehold.co/640x360/FFB6C1/FFB6C1">
-                <source src="vids/aspudden.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-       <div class="video-grid-item">
-            <video id="video3" loop muted playsinline poster="https://placehold.co/640x360/90EE90/90EE90">
-                <source src="vids/trees.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-
-        <!-- Remaining videos - lazy load -->
-        <div class="video-grid-item">
-            <video id="video2" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/FFFFE0/FFFFE0">
-                <source src="vids/riddarholmen.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-         
-        <div class="video-grid-item">
-            <video id="video8" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/90EE90/90EE90">
-                <source src="vids/running.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-         <div class="video-grid-item">
-            <video id="video4" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/ADD8E6/ADD8E6">
-                <source src="vids/water.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>     
-        
-        <div class="video-grid-item">
-            <video id="video6" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/F5F5DC/F5F5DC">
-                <source src="vids/gatan.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>      
-        <div class="video-grid-item">
-            <video id="video9" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/ADD8E6/ADD8E6">
-                <source src="vids/ostermalm.mp4" type="video/mp4">
+            <video id="displayVideoCol2" muted playsinline>
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video id="video7" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/FFB6C1/FFB6C1">
-                <source src="vids/vasaparken.mp4" type="video/mp4">
+            <video id="displayVideoCol3" muted playsinline>
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -150,82 +108,114 @@
     </div>
 
     <script>
-        // Function to play a single video
-        function playVideo(videoElement) {
-            videoElement.play().catch(error => {
-                console.warn("Video autoplay prevented for:", videoElement.id, error);
-            });
+        // Master data for all videos, including their paths and poster colors
+        const allVideoData = [
+            { id: 'geese', src: 'vids/geese.mp4', poster: 'https://placehold.co/640x360/F5F5DC/F5F5DC' }, // Light Beige
+            { id: 'aspudden', src: 'vids/aspudden.mp4', poster: 'https://placehold.co/640x360/FFB6C1/FFB6C1' }, // Light Pink
+            { id: 'trees', src: 'vids/trees.mp4', poster: 'https://placehold.co/640x360/90EE90/90EE90' },   // Soft Green
+            { id: 'riddarholmen', src: 'vids/riddarholmen.mp4', poster: 'https://placehold.co/640x360/FFFFE0/FFFFE0' }, // Faded Yellow
+            { id: 'running', src: 'vids/running.mp4', poster: 'https://placehold.co/640x360/90EE90/90EE90' },   // Soft Green
+            { id: 'water', src: 'vids/water.mp4', poster: 'https://placehold.co/640x360/ADD8E6/ADD8E6' },   // Light Blue
+            { id: 'gatan', src: 'vids/gatan.mp4', poster: 'https://placehold.co/640x360/F5F5DC/F5F5DC' },   // Light Beige
+            { id: 'ostermalm', src: 'vids/ostermalm.mp4', poster: 'https://placehold.co/640x360/ADD8E6/ADD8E6' },     // Light Blue
+            { id: 'vasaparken', src: 'vids/vasaparken.mp4', poster: 'https://placehold.co/640x360/FFB6C1/FFB6C1' }  // Light Pink
+        ];
+
+        // Define three separate playlists using indices from allVideoData
+        // This order matches the previous column-wise grouping you provided
+        const columnPlaylistsIndices = [
+            [0, 3, 6], // Column 1: geese, riddarholmen, gatan
+            [1, 4, 7], // Column 2: aspudden, running, bus
+            [2, 5, 8]  // Column 3: trees, water, vasaparken
+        ];
+
+        let currentColumnVideoIndex = [0, 0, 0]; // Keep track of the current video index for each column
+        let displayVideos = []; // Will hold references to the 3 actual video elements in HTML
+
+        // Function to play a specific video within a column's display element
+        function playVideoInColumn(colIndex) {
+            const videoElement = displayVideos[colIndex];
+            const videoData = allVideoData[columnPlaylistsIndices[colIndex][currentColumnVideoIndex[colIndex]]];
+
+            if (videoElement && videoData) {
+                // Update the src and poster of the display video element
+                videoElement.src = videoData.src;
+                videoElement.poster = videoData.poster;
+                videoElement.load(); // Load the new source
+                videoElement.play().catch(error => {
+                    console.warn(`Video autoplay prevented for column ${colIndex + 1}:`, error);
+                });
+            }
         }
 
-        // Function to start all initially visible videos
-        function startInitialVideos() {
-            const initialVideos = document.querySelectorAll('.video-grid-container .video-grid-item:nth-child(-n+3) video');
-            let canAutoplayAllInitial = true;
-            initialVideos.forEach(video => {
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        // Successfully attempted to play
-                    }).catch(error => {
-                        canAutoplayAllInitial = false;
-                        console.warn("Initial autoplay prevented for an initial video:", video.id, error);
-                    });
-                } else {
-                    canAutoplayAllInitial = false;
+        // Function to advance to the next video in a specific column's playlist
+        function playNextVideoInColumn(colIndex) {
+            currentColumnVideoIndex[colIndex]++;
+            if (currentColumnVideoIndex[colIndex] >= columnPlaylistsIndices[colIndex].length) {
+                currentColumnVideoIndex[colIndex] = 0; // Loop back to the beginning of this column's playlist
+            }
+            playVideoInColumn(colIndex);
+        }
+
+        // Function to attempt initial playback for all columns on page load
+        function tryInitialColumnPlayback() {
+            let autoplayBlocked = false;
+            displayVideos.forEach((videoElement, colIndex) => {
+                const videoData = allVideoData[columnPlaylistsIndices[colIndex][0]]; // Get first video data for each column
+                if (videoData) {
+                    videoElement.src = videoData.src;
+                    videoElement.poster = videoData.poster;
+                    videoElement.load(); // Pre-load the first video for autoplay attempt
+
+                    const playPromise = videoElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            // Autoplay successful
+                        }).catch(error => {
+                            autoplayBlocked = true;
+                            console.warn(`Initial autoplay prevented for column ${colIndex + 1}:`, error);
+                        });
+                    } else {
+                        // Browser doesn't return a Promise for play(), assume it might not autoplay
+                        autoplayBlocked = true;
+                    }
                 }
             });
 
-            if (!canAutoplayAllInitial) {
+            // If any initial autoplay was blocked, show the overlay
+            if (autoplayBlocked) {
                 document.getElementById('autoplayOverlay').classList.remove('hidden');
             } else {
                 document.getElementById('autoplayOverlay').classList.add('hidden');
             }
         }
 
-        // Intersection Observer for lazy loading
-        document.addEventListener('DOMContentLoaded', () => {
-            const lazyVideos = document.querySelectorAll('video[loading="lazy"]');
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const video = entry.target;
-                        // Remove loading and preload attributes to allow the browser to load the video
-                        video.removeAttribute('loading');
-                        video.removeAttribute('preload');
-                        // Load the video
-                        video.load();
-                        // Attempt to play the video once it's loaded
-                        video.addEventListener('loadeddata', () => {
-                            playVideo(video);
-                        }, { once: true }); // Ensure listener runs only once
-                        observer.unobserve(video); // Stop observing once loaded
-                    }
-                });
-            }, {
-                rootMargin: '0px 0px 100px 0px', // Load videos when they are 100px from the viewport
-                threshold: 0.01 // Trigger when even a tiny part is visible
-            });
-
-            lazyVideos.forEach(video => {
-                observer.observe(video);
-            });
-
-            // Start the initial videos and handle the overlay
-            startInitialVideos();
-        });
-
         // This function is called when the user clicks the play button on the overlay
         function startAllVideos() {
-            const allVideos = document.querySelectorAll('video');
-            allVideos.forEach(video => {
-                playVideo(video); // Attempt to play all videos
+            document.getElementById('autoplayOverlay').classList.add('hidden');
+            // Reset and start playback for the first video in each column
+            displayVideos.forEach((videoElement, colIndex) => {
+                currentColumnVideoIndex[colIndex] = 0; // Ensure we start from the first video of each column
+                playVideoInColumn(colIndex);
+            });
+        }
+
+        // Initialize the display videos and attach event listeners on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to the three display video elements
+            displayVideos.push(document.getElementById('displayVideoCol1'));
+            displayVideos.push(document.getElementById('displayVideoCol2'));
+            displayVideos.push(document.getElementById('displayVideoCol3'));
+
+            // Attach the 'ended' event listener to each display video element
+            displayVideos.forEach((videoElement, colIndex) => {
+                videoElement.addEventListener('ended', () => playNextVideoInColumn(colIndex));
             });
 
-            // Assuming if the user clicks, they want all videos to play,
-            // so we hide the overlay.
-            document.getElementById('autoplayOverlay').classList.add('hidden');
-        }
+            // Attempt to play the first videos of each column immediately
+            // If autoplay is blocked, the overlay will appear
+            tryInitialColumnPlayback();
+        });
     </script>
 </body>
 </html>
