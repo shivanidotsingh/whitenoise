@@ -12,7 +12,6 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            /* No min-height: 100vh; here to allow scrolling */
             background-color: #000;
             overflow-y: auto; /* Allow vertical scrolling */
             align-items: flex-start; /* Align grid to the top when scrolling */
@@ -21,17 +20,14 @@
         .video-grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            /* grid-template-rows: repeat(3, 1fr); Removed to allow rows to size based on content/aspect-ratio */
             gap: 0;
             width: 100vw; /* Still take full viewport width */
-            /* height: 100vh; Removed to allow grid to grow vertically */
             position: relative;
         }
 
         .video-grid-item {
             position: relative;
             width: 100%;
-            /* Set a fixed portrait aspect ratio */
             aspect-ratio: 9 / 16; /* For typical phone portrait video (e.g., 1080x1920) */
             overflow: hidden;
         }
@@ -84,64 +80,93 @@
         .play-button:hover {
             background-color: rgba(255, 255, 255, 0.4);
         }
+
+        /* Styles for the new loading screen */
+        #loadingScreen {
+            position: fixed; /* Fixed to cover the entire viewport */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem; /* Larger font for loading text */
+            font-weight: bold;
+            z-index: 100; /* Ensure it's on top of everything */
+            transition: opacity 1s ease-out; /* Smooth fade-out effect */
+            opacity: 1; /* Start visible */
+        }
+
+        #loadingScreen.hidden {
+            opacity: 0;
+            pointer-events: none; /* Make it unclickable when hidden */
+        }
     </style>
 </head>
 <body>
+    <!-- New Loading Screen -->
+    <div id="loadingScreen">
+        slow tv loading....
+    </div>
+
     <div class="video-grid-container">
+        <!-- First 3 videos - load immediately -->
         <div class="video-grid-item">
-            <video id="video1" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+1">
+            <video id="video1" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Loading">
                 <source src="vids/geese.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video id="video5" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+5">
+            <video id="video5" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=...">
                 <source src="vids/aspudden.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video id="video3" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+3">
+            <video id="video3" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Loading">
                 <source src="vids/ostermalm.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
 
-        
+        <!-- Remaining videos - lazy load -->
         <div class="video-grid-item">
-            <video id="video4" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+4">
+            <video id="video4" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/333333/FFFFFF?text=...">
                 <source src="vids/water.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-        </div>        
+        </div>
         <div class="video-grid-item">
-            <video id="video2" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+2">
+            <video id="video2" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/333333/FFFFFF?text=Loading">
                 <source src="vids/riddarholmen.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video id="video6" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+6">
+            <video id="video6" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/333333/FFFFFF?text=...">
                 <source src="vids/gatan.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
 
-        
         <div class="video-grid-item">
-            <video id="video7" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+7">
+            <video id="video7" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/333333/FFFFFF?text=Loading">
                 <source src="vids/vasaparken.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-        </div>  
+        </div>
         <div class="video-grid-item">
-            <video id="video8" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+8">
+            <video id="video8" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/333333/FFFFFF?text=...">
                 <source src="vids/running.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video id="video9" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+9">
+            <video id="video9" loop muted playsinline loading="lazy" preload="none" poster="https://placehold.co/640x360/333333/FFFFFF?text=Loading">
                 <source src="vids/bus.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -152,45 +177,93 @@
     </div>
 
     <script>
-        function startAllVideos() {
-            const videos = document.querySelectorAll('video');
-            let allPlayed = true;
-            videos.forEach(video => {
-                video.play().catch(error => {
-                    console.warn("Video autoplay prevented:", error);
-                    allPlayed = false;
-                });
-            });
-
-            if (allPlayed) {
-                document.getElementById('autoplayOverlay').classList.add('hidden');
-            } else {
-                console.log("Some videos might still require direct interaction or format conversion.");
-            }
+        // Function to hide the loading screen
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.add('hidden');
+            // Remove the loading screen from the DOM after transition to ensure it doesn't interfere
+            loadingScreen.addEventListener('transitionend', () => loadingScreen.remove());
         }
 
-        window.onload = function() {
-            const videos = document.querySelectorAll('video');
-            let canAutoplay = true;
-            videos.forEach(video => {
+        // Function to play a single video
+        function playVideo(videoElement) {
+            videoElement.play().catch(error => {
+                console.warn("Video autoplay prevented for:", videoElement.id, error);
+            });
+        }
+
+        // Function to start all initially visible videos
+        function startInitialVideos() {
+            const initialVideos = document.querySelectorAll('.video-grid-container .video-grid-item:nth-child(-n+3) video');
+            let canAutoplayAllInitial = true;
+            initialVideos.forEach(video => {
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
+                        // Successfully attempted to play
                     }).catch(error => {
-                        canAutoplay = false;
-                        console.warn("Initial autoplay prevented, showing overlay:", error);
+                        canAutoplayAllInitial = false;
+                        console.warn("Initial autoplay prevented for an initial video:", video.id, error);
                     });
                 } else {
-                    canAutoplay = false;
+                    canAutoplayAllInitial = false;
                 }
             });
 
-            if (!canAutoplay) {
+            if (!canAutoplayAllInitial) {
                 document.getElementById('autoplayOverlay').classList.remove('hidden');
             } else {
                 document.getElementById('autoplayOverlay').classList.add('hidden');
+                hideLoadingScreen(); // Hide loading screen immediately if initial autoplay works
             }
-        };
+        }
+
+        // Intersection Observer for lazy loading
+        document.addEventListener('DOMContentLoaded', () => {
+            const lazyVideos = document.querySelectorAll('video[loading="lazy"]');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const video = entry.target;
+                        // Remove loading and preload attributes to allow the browser to load the video
+                        video.removeAttribute('loading');
+                        video.removeAttribute('preload');
+                        // Load the video
+                        video.load();
+                        // Attempt to play the video once it's loaded
+                        video.addEventListener('loadeddata', () => {
+                            playVideo(video);
+                        }, { once: true }); // Ensure listener runs only once
+                        observer.unobserve(video); // Stop observing once loaded
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px 100px 0px', // Load videos when they are 100px from the viewport
+                threshold: 0.01 // Trigger when even a tiny part is visible
+            });
+
+            lazyVideos.forEach(video => {
+                observer.observe(video);
+            });
+
+            // Start the initial videos and handle the loading screen/overlay
+            startInitialVideos();
+        });
+
+        // This function is called when the user clicks the play button on the overlay
+        function startAllVideos() {
+            const allVideos = document.querySelectorAll('video');
+            let allStarted = true;
+            allVideos.forEach(video => {
+                playVideo(video); // Attempt to play all videos
+            });
+
+            // Assuming if the user clicks, they want all videos to play,
+            // so we hide the overlay and loading screen.
+            document.getElementById('autoplayOverlay').classList.add('hidden');
+            hideLoadingScreen();
+        }
     </script>
 </body>
 </html>
