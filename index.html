@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Grid Microsite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #000;
+        }
+
+        .video-grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .video-grid-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-grid-container">
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/geese.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/Riddarholmen.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/ostermalm.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/water.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/aspudden.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/gatan.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/vasaparken.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/running.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-grid-item">
+            <video autoplay loop muted playsinline>
+                <source src="vids/bus.mov" type="video/quicktime">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                video.play().catch(error => {
+                    console.warn("Video autoplay prevented:", error);
+                });
+            });
+        };
+    </script>
+</body>
+</html>
