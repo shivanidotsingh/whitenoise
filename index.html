@@ -10,7 +10,6 @@
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,6 +24,14 @@
             gap: 0;
             width: 100vw;
             height: 100vh;
+            position: relative;
+        }
+
+        .video-grid-item {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         .video-grid-item video {
@@ -33,74 +40,150 @@
             object-fit: cover;
             display: block;
         }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .play-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            line-height: 1;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .play-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
     </style>
 </head>
 <body>
     <div class="video-grid-container">
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/geese.mov" type="video/quicktime">
+            <video id="video1" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+1">
+                <source src="vids/geese.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/Riddarholmen.mov" type="video/quicktime">
+            <video id="video2" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+2">
+                <source src="vids/Riddarholmen.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/ostermalm.mov" type="video/quicktime">
+            <video id="video3" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+3">
+                <source src="vids/ostermalm.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/water.mov" type="video/quicktime">
+            <video id="video4" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+4">
+                <source src="vids/water.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/aspudden.mov" type="video/quicktime">
+            <video id="video5" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+5">
+                <source src="vids/aspudden.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/gatan.mov" type="video/quicktime">
+            <video id="video6" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+6">
+                <source src="vids/gatan.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/vasaparken.mov" type="video/quicktime">
+            <video id="video7" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+7">
+                <source src="vids/vasaparken.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/running.mov" type="video/quicktime">
+            <video id="video8" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+8">
+                <source src="vids/running.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="video-grid-item">
-            <video autoplay loop muted playsinline>
-                <source src="vids/bus.mov" type="video/quicktime">
+            <video id="video9" loop muted playsinline poster="https://placehold.co/640x360/333333/FFFFFF?text=Video+9">
+                <source src="vids/bus.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+        </div>
+        <div id="autoplayOverlay" class="overlay">
+            <div class="play-button" onclick="startAllVideos()">▶</div>
         </div>
     </div>
 
     <script>
-        window.onload = function() {
+        function startAllVideos() {
             const videos = document.querySelectorAll('video');
+            let allPlayed = true;
             videos.forEach(video => {
                 video.play().catch(error => {
                     console.warn("Video autoplay prevented:", error);
+                    allPlayed = false;
                 });
             });
+
+            if (allPlayed) {
+                document.getElementById('autoplayOverlay').classList.add('hidden');
+            } else {
+                console.log("Some videos might still require direct interaction or format conversion.");
+            }
+        }
+
+        window.onload = function() {
+            const videos = document.querySelectorAll('video');
+            let canAutoplay = true;
+            videos.forEach(video => {
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                    }).catch(error => {
+                        canAutoplay = false;
+                        console.warn("Initial autoplay prevented, showing overlay:", error);
+                    });
+                } else {
+                    canAutoplay = false;
+                }
+            });
+
+            if (!canAutoplay) {
+                document.getElementById('autoplayOverlay').classList.remove('hidden');
+            } else {
+                document.getElementById('autoplayOverlay').classList.add('hidden');
+            }
         };
     </script>
 </body>
